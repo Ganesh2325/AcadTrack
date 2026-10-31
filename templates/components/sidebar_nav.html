@@ -1,0 +1,21 @@
+<nav class="sidebar-nav">
+  {% if is_student_user %}
+    <p class="nav-label">Student</p>
+    <a class="{% if request.resolver_match.url_name == 'student' and request.resolver_match.namespace == 'dashboard' %}active{% endif %}" href="{% url 'dashboard:student' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a class="{% if request.resolver_match.url_name == 'student_list' %}active{% endif %}" href="{% url 'assignments:student_list' %}"><i class="bi bi-journal-text"></i> Assignments</a>
+    <a class="{% if request.resolver_match.namespace == 'submissions' and request.resolver_match.url_name == 'history' %}active{% endif %}" href="{% url 'submissions:history' %}"><i class="bi bi-clock-history"></i> Submissions</a>
+    <a class="{% if request.resolver_match.url_name == 'student_progress' %}active{% endif %}" href="{% url 'dashboard:student_progress' %}"><i class="bi bi-graph-up"></i> Progress</a>
+  {% endif %}
+  {% if is_faculty_user or user.is_superuser %}
+    <p class="nav-label">Faculty</p>
+    <a class="{% if request.resolver_match.url_name == 'faculty' and request.resolver_match.namespace == 'dashboard' %}active{% endif %}" href="{% url 'dashboard:faculty' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a class="{% if request.resolver_match.url_name == 'faculty_list' and request.resolver_match.namespace == 'assignments' %}active{% endif %}" href="{% url 'assignments:faculty_list' %}"><i class="bi bi-journal-check"></i> Assignments</a>
+    <a class="{% if request.resolver_match.url_name == 'create' and request.resolver_match.namespace == 'assignments' %}active{% endif %}" href="{% url 'assignments:create' %}"><i class="bi bi-plus-lg"></i> New assignment</a>
+  {% endif %}
+  <p class="nav-label">Academic</p>
+  <a class="{% if request.resolver_match.namespace == 'subjects' %}active{% endif %}" href="{% url 'subjects:list' %}"><i class="bi bi-book"></i> Subjects</a>
+  <a class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'accounts:profile' %}"><i class="bi bi-person"></i> Profile</a>
+  {% if is_admin_user %}
+    <a href="{% url 'admin:index' %}"><i class="bi bi-shield-lock"></i> Administration</a>
+  {% endif %}
+</nav>

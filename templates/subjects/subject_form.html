@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_edit %}Edit subject{% else %}New subject{% endif %} · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Subjects</p>
+    <h1>{% if is_edit %}Edit subject{% else %}New subject{% endif %}</h1>
+  </div>
+</div>
+<section class="panel narrow-panel">
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "components/form_fields.html" %}
+    <button class="btn btn-primary" type="submit">Save subject</button>
+  </form>
+</section>
+{% endblock %}

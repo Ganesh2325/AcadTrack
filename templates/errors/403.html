@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Access denied · AcadTrack{% endblock %}
+
+{% block content %}
+<section class="error-panel">
+  <p class="eyebrow">403</p>
+  <h1>You do not have access to this page</h1>
+  <p>AcadTrack checked your account on the server. Students cannot open faculty tools, and private submissions stay with their owner.</p>
+  <a class="btn btn-primary" href="{% url 'landing' %}">Return home</a>
+</section>
+{% endblock %}

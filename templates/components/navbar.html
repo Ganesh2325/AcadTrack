@@ -1,0 +1,40 @@
+{% load acadtrack_tags %}
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="btn btn-outline-secondary d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-label="Open navigation">
+      <i class="bi bi-list"></i>
+    </button>
+    <div>
+      <p class="topbar-kicker mb-0">{{ role_label }}</p>
+      <strong>{{ request.session.display_name|default:user|person_name }}</strong>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Account
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
+      <li>
+        <form method="post" action="{% url 'accounts:set_theme' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          {% if theme == "dark" %}
+            <input type="hidden" name="theme" value="light">
+            <button class="dropdown-item" type="submit"><i class="bi bi-sun"></i> Use light mode</button>
+          {% else %}
+            <input type="hidden" name="theme" value="dark">
+            <button class="dropdown-item" type="submit"><i class="bi bi-moon"></i> Use dark mode</button>
+          {% endif %}
+        </form>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <form method="post" action="{% url 'accounts:logout' %}">
+          {% csrf_token %}
+          <button class="dropdown-item" type="submit">Log out</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</header>

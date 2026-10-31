@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}{{ subject.subject_code }} · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">{{ subject.subject_code }}</p>
+    <h1>{{ subject.subject_name }}</h1>
+  </div>
+  {% if can_manage %}
+    <a class="btn btn-outline-secondary" href="{% url 'subjects:edit' subject.pk %}">Edit subject</a>
+  {% endif %}
+</div>
+<section class="panel">
+  <div class="rich-text">{{ subject.description|linebreaks }}</div>
+  <p class="muted">Faculty:
+    {% for member in subject.faculty.all %}
+      {{ member|person_name }}{% if not forloop.last %}, {% endif %}
+    {% empty %}
+      Not assigned
+    {% endfor %}
+  </p>
+</section>
+{% if can_manage %}
+  <div class="split-panels">
+    <section class="panel">
+      <h2>Enrolled students</h2>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Student</th><th>Roll number</th><th></th></tr></thead>
+          <tbody>
+            {% for enrollment in enrollments %}
+              <tr>
+                <td>{{ enrollment.student|person_name }}</td>
+                <td>{% if enrollment.student.student_profile %}{{ enrollment.student.student_profile.roll_number }}{% endif %}</td>
+                <td>
+                  <form method="post" action="{% url 'subjects:unenroll' subject.pk enrollment.student_id %}" data-confirm="Remove this student from the active enrollment?">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr><td colspan="3">No active enrollments.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Enroll a student</h2>
+      {% if form %}
+        <form method="post" action="{% url 'subjects:enroll' subject.pk %}" novalidate>
+          {% csrf_token %}
+          {% include "components/form_fields.html" %}
+          <button class="btn btn-primary" type="submit">Enroll</button>
+        </form>
+      {% endif %}
+    </section>
+  </div>
+{% endif %}
+<section class="panel">
+  <h2>Assignments</h2>
+  <ul class="plain-list">
+    {% for assignment in assignments %}
+      <li>
+        <div>
+          <strong>{{ assignment.title }}</strong>
+          <p>{{ assignment.deadline|date:"M j, Y, P" }} · {{ assignment.max_marks }} marks</p>
+        </div>
+        {% status_badge assignment.publication_status %}
+      </li>
+    {% empty %}
+      <li><p class="empty-copy">No assignments yet.</p></li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

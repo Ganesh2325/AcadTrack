@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}AcadTrack · Academic progress{% endblock %}
+
+{% block content %}
+<div class="marketing">
+  <section class="container showcase">
+    <div class="showcase-copy reveal">
+      <p class="eyebrow">Student assignment and academic progress</p>
+      <h1>The assignment record for a whole department.</h1>
+      <p class="lede">AcadTrack is a local Django system for publishing coursework, collecting submissions, requesting revisions, and keeping marks attached to the attempt they belong to. Students, faculty, and administrators each see only the work they are allowed to touch.</p>
+      <div class="fact-row" aria-label="Platform facts">
+        <span>Three roles</span>
+        <span>Drafts stay private</span>
+        <span>Every attempt is kept</span>
+        <span>Runs on Django and SQLite</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="platform">
+    <div class="container">
+      <div class="band-head reveal">
+        <p class="eyebrow">Why it exists</p>
+        <h2>Coursework should not live in inboxes.</h2>
+        <p class="muted">When briefs, files, and comments are scattered, deadlines slip and a resubmission replaces the original. AcadTrack keeps one record for the life of an assignment.</p>
+      </div>
+      <div class="story-grid">
+        <article class="story-card reveal">
+          <h3>What the department gets</h3>
+          <ul class="check-list">
+            <li>Subjects with faculty ownership and enrollments that cannot be duplicated.</li>
+            <li>Assignments saved as drafts, published to a class, or limited to selected students.</li>
+            <li>Deadlines, maximum marks, late-submission permission, and resubmission permission.</li>
+            <li>A submission list that shows who has turned work in and who has not.</li>
+          </ul>
+        </article>
+        <article class="story-card reveal delay-2">
+          <h3>What stays true in the data</h3>
+          <ul class="check-list">
+            <li>One submission record per student and assignment.</li>
+            <li>Each attempt stores its own text, file, time, and late flag.</li>
+            <li>Marks and comments belong to that attempt, not to a single overwritten file.</li>
+            <li>A late submission is never shown as if the student never sent anything.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="lifecycle">
+    <div class="container">
+      <div class="band-head reveal">
+        <p class="eyebrow">Assignment lifecycle</p>
+        <h2>From a faculty draft to a completed mark.</h2>
+      </div>
+      <div class="step-grid">
+        <article class="step-card reveal"><span class="step-index">1</span><h3>Draft</h3><p>Faculty write the brief on a subject they teach. Students cannot open a draft.</p></article>
+        <article class="step-card reveal delay-1"><span class="step-index">2</span><h3>Publish</h3><p>A new assignment needs a future deadline. It can go to every active enrollment or a chosen list.</p></article>
+        <article class="step-card reveal delay-2"><span class="step-index">3</span><h3>Submit</h3><p>Students send text, an allowed file, or both. The clock records whether the work is late.</p></article>
+        <article class="step-card reveal delay-3"><span class="step-index">4</span><h3>Review</h3><p>Faculty read the latest attempt, mark it under review, and enter marks that cannot exceed the maximum.</p></article>
+        <article class="step-card reveal"><span class="step-index">5</span><h3>Revise</h3><p>A revision request opens one more attempt only when the assignment allows resubmission.</p></article>
+        <article class="step-card reveal delay-2"><span class="step-index">6</span><h3>Complete</h3><p>Acceptance closes the work. Earlier attempts and their feedback remain available.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="roles">
+    <div class="container">
+      <div class="band-head reveal">
+        <p class="eyebrow">Who uses it</p>
+        <h2>Access is decided on the server, not by hiding a button.</h2>
+      </div>
+      <div class="role-grid">
+        <article class="role-card reveal">
+          <i class="bi bi-mortarboard"></i>
+          <h3>Students</h3>
+          <p>Public registration creates a student account only.</p>
+          <ul>
+            <li>Personal dashboard, deadlines, and subject progress.</li>
+            <li>Search and filter assigned work.</li>
+            <li>Submit, read feedback, and resubmit when a revision is open.</li>
+            <li>Profile edits for name, email, department, and semester. Roll number and role stay fixed.</li>
+          </ul>
+        </article>
+        <article class="role-card reveal delay-1">
+          <i class="bi bi-person-workspace"></i>
+          <h3>Faculty</h3>
+          <p>An administrator adds a person to the Faculty group.</p>
+          <ul>
+            <li>Subjects they teach, with enrollment control.</li>
+            <li>Create, publish, archive, or delete an assignment they own.</li>
+            <li>See eligible students, including those who have not submitted.</li>
+            <li>Evaluate only their own assignments.</li>
+          </ul>
+        </article>
+        <article class="role-card reveal delay-2">
+          <i class="bi bi-shield-check"></i>
+          <h3>Administrators</h3>
+          <p>Django Admin remains the institutional desk.</p>
+          <ul>
+            <li>Users, groups, and permissions.</li>
+            <li>Subjects, enrollments, assignments, and evaluations.</li>
+            <li>Promotion from student access to faculty access.</li>
+            <li>Historical attempt fields stay protected from casual edits.</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="modules">
+    <div class="container">
+      <div class="band-head reveal">
+        <p class="eyebrow">Inside the product</p>
+        <h2>The same system behind the dashboards.</h2>
+      </div>
+      <div class="module-grid">
+        <article class="module-card reveal"><i class="bi bi-book"></i><h3>Subjects</h3><p>Codes, descriptions, faculty membership, and active or inactive enrollment.</p></article>
+        <article class="module-card reveal delay-1"><i class="bi bi-journal-check"></i><h3>Assignments</h3><p>Title, instructions, reference file, deadline, marks, audience, and publication state.</p></article>
+        <article class="module-card reveal delay-2"><i class="bi bi-upload"></i><h3>Submissions</h3><p>PDF, Office, text, zip, and common source files up to 5 MB. Files are stored, never executed.</p></article>
+        <article class="module-card reveal delay-3"><i class="bi bi-chat-left-text"></i><h3>Evaluation</h3><p>Marks, comments, accept, or request a revision. The decision is tied to one attempt.</p></article>
+        <article class="module-card reveal"><i class="bi bi-graph-up"></i><h3>Progress</h3><p>Counts come from eligible assignments only. Drafts and other students’ private work are left out.</p></article>
+        <article class="module-card reveal delay-1"><i class="bi bi-moon"></i><h3>Preference</h3><p>Light or dark appearance is saved in a cookie. Sign-in itself uses the Django session.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="security">
+    <div class="container">
+      <div class="band-head reveal">
+        <p class="eyebrow">Trust</p>
+        <h2>Private academic work stays with the people who own it.</h2>
+      </div>
+      <div class="module-grid">
+        <article class="story-card reveal"><h3>Sign-in</h3><p>Username or email, Django password hashing, and a session that ends on logout.</p></article>
+        <article class="story-card reveal delay-1"><h3>Boundaries</h3><p>Students cannot open faculty tools. One student cannot download another student’s file. Faculty cannot mark a colleague’s assignment.</p></article>
+        <article class="story-card reveal delay-2"><h3>Files</h3><p>Downloads pass through an authorization check. Uploaded code is never run by the server.</p></article>
+      </div>
+    </div>
+  </section>
+
+</div>
+{% endblock %}

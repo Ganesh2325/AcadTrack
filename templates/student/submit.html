@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Submit {{ assignment.title }} · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Submission</p>
+    <h1>{{ assignment.title }}</h1>
+    <p class="lede">Due {{ assignment.deadline|date:"M j, Y, P" }}. Uploaded files are stored and are not executed.</p>
+  </div>
+</div>
+<section class="panel narrow-panel">
+  {% if block_reason and not form %}
+    <div class="alert alert-warning">{{ block_reason }}</div>
+    <a class="btn btn-outline-secondary" href="{% url 'assignments:student_detail' assignment.pk %}">Back to assignment</a>
+  {% elif form %}
+    <form method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% include "components/form_fields.html" %}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Submit assignment</button>
+        <a class="btn btn-outline-secondary" href="{% url 'assignments:student_detail' assignment.pk %}">Cancel</a>
+      </div>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

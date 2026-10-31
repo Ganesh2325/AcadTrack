@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Log in · AcadTrack{% endblock %}
+
+{% block content %}
+<section class="auth-stage">
+  <aside class="auth-aside">
+    <p class="eyebrow reveal">Welcome back</p>
+    <h1 class="reveal delay-1">Sign in to the academic record.</h1>
+    <p class="reveal delay-2">Use a username or an email address. Students open their assignment desk. Faculty open the subjects and submissions they own.</p>
+    <div class="auth-points">
+      <article class="reveal delay-2">
+        <i class="bi bi-mortarboard"></i>
+        <div><strong>Students</strong><span>Deadlines, submissions, feedback, and subject progress.</span></div>
+      </article>
+      <article class="reveal delay-3">
+        <i class="bi bi-journal-check"></i>
+        <div><strong>Faculty</strong><span>Publish work, see who has submitted, and record marks on the latest attempt.</span></div>
+      </article>
+      <article class="reveal delay-4">
+        <i class="bi bi-shield-lock"></i>
+        <div><strong>Session</strong><span>Django keeps the sign-in. Logging out ends it. Your role is not taken from the form.</span></div>
+      </article>
+    </div>
+  </aside>
+  <div class="auth-form-wrap">
+    <div class="auth-card">
+      <h2>Log in</h2>
+      <p class="muted">Demonstration faculty: faculty.demo. Demonstration student: student.demo.</p>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "components/form_fields.html" %}
+        <button class="btn btn-primary w-100" type="submit">Log in</button>
+      </form>
+      <p class="auth-switch">New student? <a href="{% url 'accounts:register' %}">Create an account</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

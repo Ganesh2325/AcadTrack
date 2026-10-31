@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}Submission history · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Student</p>
+    <h1>Submission history</h1>
+  </div>
+</div>
+<div class="table-wrap">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Assignment</th>
+        <th>Attempt</th>
+        <th>Status</th>
+        <th>Latest marks</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for submission in page_obj %}
+        <tr>
+          <td data-label="Assignment">{{ submission.assignment.title }}<br><span class="muted">{{ submission.assignment.subject.subject_code }}</span></td>
+          <td data-label="Attempt">{% if submission.latest_attempt %}{{ submission.latest_attempt.attempt_number }}{% if submission.latest_attempt.is_late %} · Late{% endif %}{% else %}—{% endif %}</td>
+          <td data-label="Status">{% status_badge submission.student_status %}</td>
+          <td data-label="Marks">
+            {% if submission.latest_attempt.evaluation %}
+              {{ submission.latest_attempt.evaluation.marks_obtained }} / {{ submission.assignment.max_marks }}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+          <td><a href="{% url 'submissions:detail' submission.pk %}">Open</a></td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="5">No submissions yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% include "components/pagination.html" %}
+{% endblock %}

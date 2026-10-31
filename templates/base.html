@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="{{ theme|default:'light' }}" data-theme="{{ theme|default:'light' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AcadTrack{% endblock %}</title>
+  <link rel="icon" href="{% static 'images/logo.svg' %}" type="image/svg+xml">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/bootstrap-icons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/public.css' %}">
+  <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}has-app{% else %}is-public{% endif %}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  {% if user.is_authenticated %}
+    {% include "components/sidebar.html" %}
+  {% else %}
+    {% block public_header %}
+    <header class="public-header">
+      <div class="container public-header-inner">
+        <span class="brand">AcadTrack</span>
+        <nav class="public-nav" aria-label="Public">
+          <a href="{% url 'accounts:login' %}">Log in</a>
+        </nav>
+      </div>
+    </header>
+    {% endblock %}
+  {% endif %}
+  <div class="{% if user.is_authenticated %}app-shell{% else %}public-shell{% endif %}">
+    {% if user.is_authenticated %}
+      {% include "components/navbar.html" %}
+    {% endif %}
+    <main id="main-content" class="{% if user.is_authenticated %}app-main{% else %}public-main{% endif %}">
+      {% include "components/messages.html" %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="{% if user.is_authenticated %}app-footer{% else %}public-footer{% endif %}">
+      {% if user.is_authenticated %}
+        AcadTrack · Student assignment and academic progress
+      {% else %}
+        <div class="container public-footer-grid">
+          <div>
+            <strong>AcadTrack</strong>
+            <p>Student assignment and academic progress for a single department, running locally on Django.</p>
+          </div>
+          <div>
+            <a href="{% url 'landing' %}#lifecycle">How work moves</a>
+            <a href="{% url 'landing' %}#security">Access rules</a>
+            <a href="{% url 'accounts:login' %}">Sign in</a>
+          </div>
+        </div>
+      {% endif %}
+    </footer>
+  </div>
+  <script src="{% static 'vendor/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

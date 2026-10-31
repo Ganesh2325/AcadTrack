@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_edit %}Edit assignment{% else %}Create assignment{% endif %} · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Faculty</p>
+    <h1>{% if is_edit %}Edit assignment{% else %}Create assignment{% endif %}</h1>
+    {% if is_edit %}
+      <p class="lede">Current status: {{ assignment.get_publication_status_display }}.</p>
+    {% endif %}
+  </div>
+</div>
+<section class="panel">
+  <form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% include "components/form_fields.html" %}
+    <div class="form-actions">
+      <button class="btn btn-outline-secondary" type="submit" name="action" value="save">{% if is_edit %}Save changes{% else %}Save draft{% endif %}</button>
+      <button class="btn btn-primary" type="submit" name="action" value="publish">Publish</button>
+      {% if is_edit %}
+        <button class="btn btn-outline-secondary" type="submit" name="action" value="draft">Move to draft</button>
+        <button class="btn btn-outline-warning" type="submit" name="action" value="archive">Archive</button>
+      {% endif %}
+    </div>
+  </form>
+  {% if is_edit %}
+    <div class="danger-zone">
+      <form method="post" action="{% url 'assignments:delete' assignment.pk %}" data-confirm="Delete this assignment? This is only possible when nobody has submitted.">
+        {% csrf_token %}
+        <button class="btn btn-outline-danger" type="submit">Delete assignment</button>
+      </form>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

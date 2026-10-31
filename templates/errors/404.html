@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found · AcadTrack{% endblock %}
+
+{% block content %}
+<section class="error-panel">
+  <p class="eyebrow">404</p>
+  <h1>That page is not available</h1>
+  <p>The address does not match an AcadTrack page.</p>
+  <a class="btn btn-primary" href="{% url 'landing' %}">Return home</a>
+</section>
+{% endblock %}

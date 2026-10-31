@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}Submission detail · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">{{ submission.assignment.subject.subject_code }}</p>
+    <h1>{{ submission.assignment.title }}</h1>
+  </div>
+  {% status_badge status %}
+</div>
+{% for attempt in attempts %}
+  <article class="panel attempt-card">
+    <header>
+      <strong>Attempt {{ attempt.attempt_number }}</strong>
+      <span>{{ attempt.submitted_at|date:"M j, Y, P" }}</span>
+      {% if attempt.is_late %}<span class="status-badge status-danger">Late</span>{% endif %}
+    </header>
+    {% if attempt.submitted_text %}<div class="rich-text">{{ attempt.submitted_text|linebreaks }}</div>{% endif %}
+    {% if attempt.submitted_file %}
+      <p><a href="{% url 'submissions:download_attempt' attempt.pk %}">Download {{ attempt.original_filename|default:"attachment" }}</a></p>
+    {% endif %}
+    {% if attempt.evaluation %}
+      <div class="feedback-box">
+        <p><strong>{{ attempt.evaluation.marks_obtained }} / {{ submission.assignment.max_marks }}</strong> · {{ attempt.evaluation.get_decision_display }}</p>
+        <p>{{ attempt.evaluation.reviewed_by|person_name }} · {{ attempt.evaluation.reviewed_at|date:"M j, Y, P" }}</p>
+        {% if attempt.evaluation.comments %}<div class="rich-text">{{ attempt.evaluation.comments|linebreaks }}</div>{% endif %}
+      </div>
+    {% endif %}
+  </article>
+{% endfor %}
+{% endblock %}

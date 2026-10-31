@@ -1,0 +1,21 @@
+{% load static acadtrack_tags %}
+<aside class="sidebar d-none d-lg-flex" aria-label="Primary">
+  <a class="sidebar-brand" href="{% url home_url_name %}">
+    <img src="{% static 'images/logo.svg' %}" alt="" width="34" height="34">
+    <span>AcadTrack</span>
+  </a>
+  {% include "components/sidebar_nav.html" %}
+  <div class="sidebar-foot">
+    <span class="sidebar-role">{{ role_label }}</span>
+    <span class="sidebar-session">Signed in this session as {{ request.session.display_name|default:user|person_name }}</span>
+  </div>
+</aside>
+<div class="offcanvas offcanvas-start app-offcanvas" tabindex="-1" id="mobileSidebar" aria-labelledby="mobileSidebarLabel">
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title" id="mobileSidebarLabel">AcadTrack</h2>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-0">
+    {% include "components/sidebar_nav.html" %}
+  </div>
+</div>

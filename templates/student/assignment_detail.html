@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}{{ assignment.title }} · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">{{ assignment.subject.subject_code }} · {{ assignment.subject.subject_name }}</p>
+    <h1>{{ assignment.title }}</h1>
+    <p class="lede">{{ assignment.created_by|person_name }} · Due {{ assignment.deadline|date:"M j, Y, P" }}</p>
+  </div>
+  <div class="header-actions">
+    {% status_badge status %}
+    {% if not block_reason %}
+      <a class="btn btn-primary" href="{% url 'submissions:submit' assignment.pk %}">Submit work</a>
+    {% endif %}
+  </div>
+</div>
+<div class="split-panels">
+  <section class="panel">
+    <h2>Description</h2>
+    <div class="rich-text">{{ assignment.description|linebreaks }}</div>
+    {% if assignment.instructions %}
+      <h2>Instructions</h2>
+      <div class="rich-text">{{ assignment.instructions|linebreaks }}</div>
+    {% endif %}
+    {% if assignment.attachment %}
+      <p><a class="btn btn-outline-secondary btn-sm" href="{% url 'submissions:download_attachment' assignment.pk %}">Download reference file</a></p>
+    {% endif %}
+  </section>
+  <aside class="panel">
+    <h2>Rules</h2>
+    <dl class="meta-list">
+      <div><dt>Maximum marks</dt><dd>{{ assignment.max_marks }}</dd></div>
+      <div><dt>Late submission</dt><dd>{% if assignment.allow_late_submission %}Allowed{% else %}Not allowed{% endif %}</dd></div>
+      <div><dt>Resubmission</dt><dd>{% if assignment.allow_resubmission %}Allowed after a revision request{% else %}Not allowed{% endif %}</dd></div>
+      <div><dt>Time</dt><dd>{% deadline_hint assignment.deadline %}</dd></div>
+    </dl>
+    {% if block_reason %}
+      <div class="alert alert-warning">{{ block_reason }}</div>
+    {% endif %}
+  </aside>
+</div>
+<section class="panel">
+  <h2>Submission history</h2>
+  {% if attempts %}
+    {% for attempt in attempts %}
+      <article class="attempt-card">
+        <header>
+          <strong>Attempt {{ attempt.attempt_number }}</strong>
+          <span>{{ attempt.submitted_at|date:"M j, Y, P" }}</span>
+          {% if attempt.is_late %}<span class="status-badge status-danger">Late</span>{% endif %}
+        </header>
+        {% if attempt.submitted_text %}
+          <div class="rich-text">{{ attempt.submitted_text|linebreaks }}</div>
+        {% endif %}
+        {% if attempt.submitted_file %}
+          <p><a href="{% url 'submissions:download_attempt' attempt.pk %}">Download {{ attempt.original_filename|default:"file" }}</a></p>
+        {% endif %}
+        {% if attempt.evaluation %}
+          <div class="feedback-box">
+            <p><strong>{{ attempt.evaluation.marks_obtained }} / {{ assignment.max_marks }}</strong> · {{ attempt.evaluation.get_decision_display }}</p>
+            <p>Reviewed by {{ attempt.evaluation.reviewed_by|person_name }} on {{ attempt.evaluation.reviewed_at|date:"M j, Y, P" }}</p>
+            {% if attempt.evaluation.comments %}
+              <div class="rich-text">{{ attempt.evaluation.comments|linebreaks }}</div>
+            {% endif %}
+          </div>
+        {% else %}
+          <p class="empty-copy">Waiting for faculty feedback on this attempt.</p>
+        {% endif %}
+      </article>
+    {% endfor %}
+  {% else %}
+    <p class="empty-copy">You have not submitted this assignment.</p>
+  {% endif %}
+</section>
+{% endblock %}

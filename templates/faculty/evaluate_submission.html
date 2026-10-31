@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}Evaluate submission · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">{{ submission.assignment.subject.subject_code }} · {{ submission.assignment.title }}</p>
+    <h1>{{ submission.student|person_name }}</h1>
+    <p class="lede">
+      {% if submission.student.student_profile %}Roll {{ submission.student.student_profile.roll_number }} · {% endif %}
+      {% status_badge submission.status %}
+    </p>
+  </div>
+  <a class="btn btn-outline-secondary" href="{% url 'submissions:faculty_list' submission.assignment.pk %}">All students</a>
+</div>
+<div class="split-panels">
+  <section>
+    {% for attempt in attempts %}
+      <article class="panel attempt-card">
+        <header>
+          <strong>Attempt {{ attempt.attempt_number }}</strong>
+          <span>{{ attempt.submitted_at|date:"M j, Y, P" }}</span>
+          {% if attempt.is_late %}<span class="status-badge status-danger">Late</span>{% endif %}
+          {% if latest and attempt.pk == latest.pk %}<span class="status-badge status-info">Latest</span>{% endif %}
+        </header>
+        {% if attempt.submitted_text %}<div class="rich-text">{{ attempt.submitted_text|linebreaks }}</div>{% endif %}
+        {% if attempt.submitted_file %}
+          <p><a href="{% url 'submissions:download_attempt' attempt.pk %}">Download {{ attempt.original_filename|default:"file" }}</a></p>
+        {% endif %}
+        {% if attempt.evaluation %}
+          <div class="feedback-box">
+            <p><strong>{{ attempt.evaluation.marks_obtained }} / {{ submission.assignment.max_marks }}</strong> · {{ attempt.evaluation.get_decision_display }}</p>
+            {% if attempt.evaluation.comments %}<div class="rich-text">{{ attempt.evaluation.comments|linebreaks }}</div>{% endif %}
+          </div>
+        {% endif %}
+      </article>
+    {% empty %}
+      <section class="panel"><p class="empty-copy">This submission has no attempts.</p></section>
+    {% endfor %}
+  </section>
+  <aside class="panel">
+    <h2>Evaluation</h2>
+    {% if submission.status == "submitted" %}
+      <form method="post" action="{% url 'submissions:start_review' submission.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-secondary w-100 mb-3" type="submit">Mark as under review</button>
+      </form>
+    {% endif %}
+    {% if form %}
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "components/form_fields.html" %}
+        <button class="btn btn-primary w-100" type="submit">Save evaluation</button>
+      </form>
+      <p class="form-text">Saving updates the latest attempt only. Earlier feedback remains attached to its attempt.</p>
+    {% else %}
+      <p class="empty-copy">There is no attempt to evaluate.</p>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

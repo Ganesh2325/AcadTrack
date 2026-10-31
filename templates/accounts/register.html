@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Register · AcadTrack{% endblock %}
+
+{% block content %}
+<section class="auth-stage">
+  <aside class="auth-aside">
+    <p class="eyebrow reveal">Student registration</p>
+    <h1 class="reveal delay-1">Open a student place in the department record.</h1>
+    <p class="reveal delay-2">This form creates a student only. Faculty accounts are granted by an administrator. The roll number you enter becomes part of the academic record and cannot be edited later from the profile page.</p>
+    <div class="auth-points">
+      <article class="reveal delay-2">
+        <i class="bi bi-person-vcard"></i>
+        <div><strong>Identity</strong><span>Full name, username, and a unique email address.</span></div>
+      </article>
+      <article class="reveal delay-3">
+        <i class="bi bi-hash"></i>
+        <div><strong>Academic details</strong><span>Department, semester, and a unique roll number.</span></div>
+      </article>
+      <article class="reveal delay-4">
+        <i class="bi bi-key"></i>
+        <div><strong>Password</strong><span>Checked on the server and stored with Django’s password hasher.</span></div>
+      </article>
+    </div>
+  </aside>
+  <div class="auth-form-wrap">
+    <div class="auth-card">
+      <h2>Create your account</h2>
+      <p class="muted">After registration you go straight to the student dashboard.</p>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% include "components/form_fields.html" %}
+        <button class="btn btn-primary w-100" type="submit">Create account</button>
+      </form>
+      <p class="auth-switch">Already registered? <a href="{% url 'accounts:login' %}">Log in</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

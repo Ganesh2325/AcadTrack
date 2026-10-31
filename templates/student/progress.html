@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}Academic progress · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Academic progress</p>
+    <h1>{{ stats.completion_percent }}% complete</h1>
+    <p class="lede">Completion is completed assignments divided by assignments currently assigned to you. Drafts and work for other students are excluded.</p>
+  </div>
+</div>
+<div class="stat-grid">
+  <article class="stat-card"><span>Assigned</span><strong>{{ stats.total }}</strong></article>
+  <article class="stat-card"><span>Completed</span><strong>{{ stats.completed }}</strong></article>
+  <article class="stat-card"><span>Pending</span><strong>{{ stats.pending }}</strong></article>
+  <article class="stat-card"><span>Awaiting review</span><strong>{{ stats.awaiting }}</strong></article>
+  <article class="stat-card"><span>Revision requested</span><strong>{{ stats.revision }}</strong></article>
+  <article class="stat-card stat-alert"><span>Overdue</span><strong>{{ stats.overdue }}</strong></article>
+</div>
+<section class="panel">
+  <h2>By subject</h2>
+  {% for row in stats.subject_rows %}
+    <div class="progress-row">
+      <div class="progress-label">
+        <span>{{ row.subject.subject_code }} · {{ row.subject.subject_name }}</span>
+        <span>{{ row.percent }}%</span>
+      </div>
+      <div class="progress" role="progressbar" aria-valuenow="{{ row.percent }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ row.percent }}%"></div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="empty-copy">No assigned work yet.</p>
+  {% endfor %}
+</section>
+<section class="panel">
+  <h2>Assignment record</h2>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>Assignment</th><th>Subject</th><th>Status</th><th>Deadline</th></tr>
+      </thead>
+      <tbody>
+        {% for assignment in assignments %}
+          <tr>
+            <td data-label="Assignment"><a href="{% url 'assignments:student_detail' assignment.pk %}">{{ assignment.title }}</a></td>
+            <td data-label="Subject">{{ assignment.subject.subject_code }}</td>
+            <td data-label="Status">{% status_badge assignment.student_status %}</td>
+            <td data-label="Deadline">{{ assignment.deadline|date:"M j, Y, P" }}</td>
+          </tr>
+        {% empty %}
+          <tr><td colspan="4">No records.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

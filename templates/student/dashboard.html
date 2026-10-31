@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load acadtrack_tags %}
+
+{% block title %}Student dashboard · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Student dashboard</p>
+    <h1>Hello, {{ request.session.display_name|default:user|person_name }}</h1>
+    <p class="lede">Counts include only published and archived assignments you are eligible to access.</p>
+  </div>
+</div>
+<div class="stat-grid">
+  <article class="stat-card"><span>Assigned</span><strong>{{ stats.total }}</strong></article>
+  <article class="stat-card"><span>Pending</span><strong>{{ stats.pending }}</strong></article>
+  <article class="stat-card"><span>Awaiting review</span><strong>{{ stats.awaiting }}</strong></article>
+  <article class="stat-card"><span>Completed</span><strong>{{ stats.completed }}</strong></article>
+  <article class="stat-card stat-alert"><span>Overdue</span><strong>{{ stats.overdue }}</strong></article>
+  <article class="stat-card"><span>Completion</span><strong>{{ stats.completion_percent }}%</strong></article>
+</div>
+<div class="split-panels">
+  <section class="panel">
+    <h2>Upcoming deadlines</h2>
+    {% if upcoming %}
+      <ul class="plain-list">
+        {% for assignment in upcoming %}
+          <li>
+            <div>
+              <a href="{% url 'assignments:student_detail' assignment.pk %}">{{ assignment.title }}</a>
+              <p>{{ assignment.subject.subject_code }} · {{ assignment.deadline|date:"M j, Y, P" }}</p>
+            </div>
+            <div class="list-meta">
+              {% status_badge assignment.student_status %}
+              {% deadline_hint assignment.deadline %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty-copy">No upcoming deadlines.</p>
+    {% endif %}
+  </section>
+  <section class="panel">
+    <h2>Subject progress</h2>
+    {% if stats.subject_rows %}
+      {% for row in stats.subject_rows %}
+        <div class="progress-row">
+          <div class="progress-label"><span>{{ row.subject.subject_code }}</span><span>{{ row.completed }}/{{ row.total }}</span></div>
+          <div class="progress" role="progressbar" aria-valuenow="{{ row.percent }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ row.subject.subject_name }}">
+            <div class="progress-bar" style="width: {{ row.percent }}%"></div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="empty-copy">Enroll in a subject to see progress.</p>
+    {% endif %}
+  </section>
+</div>
+<div class="card-grid three">
+  <section class="panel">
+    <h2>Recently assigned</h2>
+    {% for assignment in recent_assignments %}
+      <p><a href="{% url 'assignments:student_detail' assignment.pk %}">{{ assignment.title }}</a></p>
+    {% empty %}
+      <p class="empty-copy">Nothing published yet.</p>
+    {% endfor %}
+  </section>
+  <section class="panel">
+    <h2>Recent submissions</h2>
+    {% for attempt in recent_attempts %}
+      <p>{{ attempt.submission.assignment.title }} · Attempt {{ attempt.attempt_number }}</p>
+    {% empty %}
+      <p class="empty-copy">You have not submitted work yet.</p>
+    {% endfor %}
+  </section>
+  <section class="panel">
+    <h2>New feedback</h2>
+    {% for evaluation in recent_feedback %}
+      <p>{{ evaluation.submission_attempt.submission.assignment.title }} · {{ evaluation.marks_obtained }} marks</p>
+    {% empty %}
+      <p class="empty-copy">No feedback yet.</p>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Subjects · AcadTrack{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Subjects</p>
+    <h1>{% if is_faculty_user or user.is_superuser %}Subjects you manage{% else %}Your subjects{% endif %}</h1>
+  </div>
+  {% if is_faculty_user or user.is_superuser %}
+    <a class="btn btn-primary" href="{% url 'subjects:create' %}">New subject</a>
+  {% endif %}
+</div>
+<form class="filter-bar" method="get">
+  <div>
+    <label class="form-label" for="subject-q">Search</label>
+    <input class="form-control" id="subject-q" type="search" name="q" value="{{ query }}" placeholder="Name or code">
+  </div>
+  <button class="btn btn-primary" type="submit">Search</button>
+</form>
+<div class="card-grid">
+  {% for subject in subjects %}
+    <article class="info-card">
+      <p class="eyebrow">{{ subject.subject_code }}</p>
+      <h3><a href="{% url 'subjects:detail' subject.pk %}">{{ subject.subject_name }}</a></h3>
+      <p>{{ subject.description|truncatewords:24 }}</p>
+    </article>
+  {% empty %}
+    <p class="empty-copy">No subjects to show.</p>
+  {% endfor %}
+</div>
+{% endblock %}

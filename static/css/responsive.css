@@ -1,0 +1,40 @@
+@media (max-width: 1100px) {
+  .stat-grid { grid-template-columns: repeat(3, 1fr); }
+  .card-grid.three, .hero-grid, .auth-layout, .split-panels,
+  .showcase, .story-grid, .module-grid, .role-grid, .step-grid, .auth-stage {
+    grid-template-columns: 1fr;
+  }
+  .hero h1, .showcase-copy h1 { font-size: 2.1rem; max-width: none; }
+  .stage-visual { min-height: 360px; }
+  .auth-aside { padding: 2rem 1.25rem; }
+  .closing, .public-footer-grid { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 991.98px) {
+  .app-shell { margin-left: 0; }
+  .page-header, .header-actions { align-items: stretch; flex-direction: column; }
+  .public-header-inner { align-items: flex-start; }
+  .public-nav { flex-wrap: wrap; justify-content: flex-end; }
+}
+
+@media (max-width: 720px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .app-main { padding: 1rem; }
+  .data-table thead { display: none; }
+  .data-table tr { display: block; padding: 0.4rem 0; border-bottom: 1px solid var(--line); }
+  .data-table td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 0;
+    padding: 0.35rem 0.9rem;
+  }
+  .data-table td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+  .table-actions { justify-content: flex-end; }
+  .filter-bar > div, .year-form, .filter-bar .btn { width: 100%; }
+}
