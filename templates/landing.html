@@ -17,6 +17,9 @@
         <span>Runs on Django and SQLite</span>
       </div>
     </div>
+    <figure class="hero-figure">
+      <img src="{% static 'images/hero-coursework.jpg' %}" alt="A faculty member reviewing printed coursework at a desk" width="1200" height="900">
+    </figure>
   </section>
 
   <section class="band" id="platform">
@@ -26,6 +29,9 @@
         <h2>Coursework should not live in inboxes.</h2>
         <p class="muted">When briefs, files, and comments are scattered, deadlines slip and a resubmission replaces the original. AcadTrack keeps one record for the life of an assignment.</p>
       </div>
+      <figure class="wide-figure">
+        <img src="{% static 'images/organized-records.jpg' %}" alt="A marked paper, course folder, and calendar kept together as one record" width="1600" height="900">
+      </figure>
       <div class="story-grid">
         <article class="story-card reveal">
           <h3>What the department gets</h3>
@@ -55,6 +61,9 @@
         <p class="eyebrow">Assignment lifecycle</p>
         <h2>From a faculty draft to a completed mark.</h2>
       </div>
+      <figure class="wide-figure">
+        <img src="{% static 'images/library-deadline.jpg' %}" alt="A student writing coursework on a laptop in a university library" width="1600" height="900">
+      </figure>
       <div class="step-grid">
         <article class="step-card reveal"><span class="step-index">1</span><h3>Draft</h3><p>Faculty write the brief on a subject they teach. Students cannot open a draft.</p></article>
         <article class="step-card reveal delay-1"><span class="step-index">2</span><h3>Publish</h3><p>A new assignment needs a future deadline. It can go to every active enrollment or a chosen list.</p></article>
@@ -74,7 +83,7 @@
       </div>
       <div class="role-grid">
         <article class="role-card reveal">
-          <i class="bi bi-mortarboard"></i>
+          <img src="{% static 'images/student-campus.jpg' %}" alt="A student on campus with a notebook" width="900" height="675">
           <h3>Students</h3>
           <p>Public registration creates a student account only.</p>
           <ul>
@@ -85,7 +94,7 @@
           </ul>
         </article>
         <article class="role-card reveal delay-1">
-          <i class="bi bi-person-workspace"></i>
+          <img src="{% static 'images/faculty-seminar.jpg' %}" alt="A faculty member holding a printed brief in a seminar room" width="900" height="675">
           <h3>Faculty</h3>
           <p>An administrator adds a person to the Faculty group.</p>
           <ul>
@@ -96,7 +105,7 @@
           </ul>
         </article>
         <article class="role-card reveal delay-2">
-          <i class="bi bi-shield-check"></i>
+          <img src="{% static 'images/records-office.jpg' %}" alt="An administrator retrieving a student file from department records" width="900" height="675">
           <h3>Administrators</h3>
           <p>Django Admin remains the institutional desk.</p>
           <ul>
@@ -133,6 +142,9 @@
         <p class="eyebrow">Trust</p>
         <h2>Private academic work stays with the people who own it.</h2>
       </div>
+      <figure class="wide-figure">
+        <img src="{% static 'images/secure-archive.jpg' %}" alt="A locked archive where academic files stay with the people who own them" width="1600" height="900">
+      </figure>
       <div class="module-grid">
         <article class="story-card reveal"><h3>Sign-in</h3><p>Username or email, Django password hashing, and a session that ends on logout.</p></article>
         <article class="story-card reveal delay-1"><h3>Boundaries</h3><p>Students cannot open faculty tools. One student cannot download another student’s file. Faculty cannot mark a colleague’s assignment.</p></article>

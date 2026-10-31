@@ -19,16 +19,18 @@
   {% if user.is_authenticated %}
     {% include "components/sidebar.html" %}
   {% else %}
-    {% block public_header %}
     <header class="public-header">
       <div class="container public-header-inner">
-        <span class="brand">AcadTrack</span>
+        <a class="brand" href="{% url 'landing' %}">AcadTrack</a>
         <nav class="public-nav" aria-label="Public">
+          <a href="{% url 'landing' %}#platform">Platform</a>
+          <a href="{% url 'landing' %}#lifecycle">Lifecycle</a>
+          <a href="{% url 'landing' %}#roles">Roles</a>
           <a href="{% url 'accounts:login' %}">Log in</a>
+          <a class="btn btn-primary btn-sm" href="{% url 'accounts:register' %}">Create student account</a>
         </nav>
       </div>
     </header>
-    {% endblock %}
   {% endif %}
   <div class="{% if user.is_authenticated %}app-shell{% else %}public-shell{% endif %}">
     {% if user.is_authenticated %}

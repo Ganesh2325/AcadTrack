@@ -183,7 +183,7 @@ h3 { margin: 0.4rem 0; }
 .public-header a { color: white; }
 .public-header-inner, .public-footer, .hero, .page-section { padding: 1rem 0; }
 .public-main, .public-footer { padding-left: 1rem; padding-right: 1rem; }
-.brand { display: flex; gap: 0.6rem; align-items: center; font-weight: 700; color: white; text-decoration: none; cursor: default; }
+.brand { display: flex; gap: 0.6rem; align-items: center; font-weight: 700; color: white; text-decoration: none; cursor: pointer; }
 .public-nav { display: flex; gap: 1rem; align-items: center; }
 .hero { background: linear-gradient(160deg, #0f172a, #1e1b4b); color: white; padding: 3.5rem 0; }
 .hero h1 { font-size: 2.6rem; max-width: 16ch; }

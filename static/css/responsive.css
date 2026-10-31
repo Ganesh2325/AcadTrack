@@ -4,7 +4,10 @@
   .showcase, .story-grid, .module-grid, .role-grid, .step-grid, .auth-stage {
     grid-template-columns: 1fr;
   }
-  .hero h1, .showcase-copy h1 { font-size: 2.1rem; max-width: none; }
+  .hero h1, .showcase-copy h1 { font-size: 2.15rem; max-width: 16ch; }
+  .showcase { padding: 2.75rem 0 2.25rem; gap: 1.75rem; }
+  .hero-figure img, .wide-figure img { height: 240px; }
+  .role-card > img { height: 200px; }
   .stage-visual { min-height: 360px; }
   .auth-aside { padding: 2rem 1.25rem; }
   .closing, .public-footer-grid { flex-direction: column; align-items: flex-start; }
